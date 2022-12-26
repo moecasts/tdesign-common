@@ -6,7 +6,11 @@
 
 @import "./_mixin.less";
 
+@import "../../mixins/_reset.less";
+
 .@{prefix}-steps {
+  .reset;
+
   display: flex;
   width: 100%;
   .step-item-basic();
@@ -33,10 +37,6 @@
     // 默认锚点
     &.@{prefix}-steps--default-anchor {
 
-      .@{prefix}-steps-item__content {
-        margin-top: @steps-item-content-margin-top;
-      }
-
       .@{prefix}-steps-item__title {
         width: fit-content;
         margin-bottom: @steps-item-title-margin-bottom;
@@ -44,13 +44,12 @@
 
       .@{prefix}-steps-item__icon {
         &__number {
-          width: steps-circle-width;
+          width: @steps-circle-width;
           height: @steps-circle-height;
-          margin-top: @steps-item-icon-number-margin-top;
         }
 
         & > .t-icon {
-          font-size: @steps-item-t-icon-font-size;
+          font-size: @steps-item-t-icon-font-size-default;
         }
       }
 

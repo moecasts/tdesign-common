@@ -141,6 +141,17 @@
 @bg-color-component-active: var(
   --td-bg-color-component-active
 ); // 色彩 - 组件 - active
+
+@bg-color-secondarycomponent: var(
+  --td-bg-color-secondarycomponent
+); // 色彩 - 次级组件
+@bg-color-secondarycomponent-hover: var(
+  --td-bg-color-secondarycomponent-hover
+); // 色彩 - 次级组件 - hover
+@bg-color-secondarycomponent-active: var(
+  --td-bg-color-secondarycomponent-active
+); // 色彩 - 次级组件 - active
+
 @bg-color-component-disabled: var(
   --td-bg-color-component-disabled
 ); // 色彩 - 组件 - disabled
@@ -188,7 +199,73 @@
 @shadow-2-inset: @shadow-2, @shadow-inset;
 @shadow-3-inset: @shadow-3, @shadow-inset;
 
-// Spacer
+@size-1: var(--td-size-1);
+@size-2: var(--td-size-2);
+@size-3: var(--td-size-3);
+@size-4: var(--td-size-4);
+@size-5: var(--td-size-5);
+@size-6: var(--td-size-6);
+@size-7: var(--td-size-7);
+@size-8: var(--td-size-8);
+@size-9: var(--td-size-9);
+@size-10: var(--td-size-10);
+@size-11: var(--td-size-11);
+@size-12: var(--td-size-12);
+@size-13: var(--td-size-13);
+@size-14: var(--td-size-14);
+@size-15: var(--td-size-15);
+@size-16: var(--td-size-16);
+
+// component 组件尺寸高度相关 token
+@comp-size-xxxs: var(--td-comp-size-xxxs);
+@comp-size-xxs: var(--td-comp-size-xxs);
+@comp-size-xs: var(--td-comp-size-xs);
+@comp-size-s: var(--td-comp-size-s);
+@comp-size-m: var(--td-comp-size-m);
+@comp-size-l: var(--td-comp-size-l);
+@comp-size-xl: var(--td-comp-size-xl);
+@comp-size-xxl: var(--td-comp-size-xxl);
+@comp-size-xxxl: var(--td-comp-size-xxxl);
+@comp-size-xxxxl: var(--td-comp-size-xxxxl);
+@comp-size-xxxxxl: var(--td-comp-size-xxxxxl);
+
+// popup 弹出层整体边距 token
+@pop-padding-s: var(--td-pop-padding-s);
+@pop-padding-m: var(--td-pop-padding-m);
+@pop-padding-l: var(--td-pop-padding-l);
+@pop-padding-xl: var(--td-pop-padding-xl);
+@pop-padding-xxl: var(--td-pop-padding-xxl);
+
+// component 组件左右边距 token
+@comp-paddingLR-xxs: var(--td-comp-paddingLR-xxs);
+@comp-paddingLR-xs: var(--td-comp-paddingLR-xs);
+@comp-paddingLR-s: var(--td-comp-paddingLR-s);
+@comp-paddingLR-m: var(--td-comp-paddingLR-m);
+@comp-paddingLR-l: var(--td-comp-paddingLR-l);
+@comp-paddingLR-xl: var(--td-comp-paddingLR-xl);
+@comp-paddingLR-xxl: var(--td-comp-paddingLR-xxl);
+
+// component 组件上下边距 token
+@comp-paddingTB-xxs: var(--td-comp-paddingTB-xxs);
+@comp-paddingTB-xs: var(--td-comp-paddingTB-xs);
+@comp-paddingTB-s: var(--td-comp-paddingTB-s);
+@comp-paddingTB-m: var(--td-comp-paddingTB-m);
+@comp-paddingTB-l: var(--td-comp-paddingTB-l);
+@comp-paddingTB-xl: var(--td-comp-paddingTB-xl);
+@comp-paddingTB-xxl: var(--td-comp-paddingTB-xxl);
+
+// component 组件间距 token
+@comp-margin-xxs: var(--td-comp-margin-xxs);
+@comp-margin-xs: var(--td-comp-margin-xs);
+@comp-margin-s: var(--td-comp-margin-s);
+@comp-margin-m: var(--td-comp-margin-m);
+@comp-margin-l: var(--td-comp-margin-l);
+@comp-margin-xl: var(--td-comp-margin-xl);
+@comp-margin-xxl: var(--td-comp-margin-xxl);
+@comp-margin-xxxl: var(--td-comp-margin-xxxl);
+@comp-margin-xxxxl: var(--td-comp-margin-xxxxl);
+
+// Spacer 【deprecated】
 @spacer: 8px;
 @spacer-s: @spacer * .5; // 间距-4
 @spacer-m: @spacer * .75; // 间距-6
@@ -204,28 +281,49 @@
 @spacer-9: @spacer * 9; // 间距-大-48
 @spacer-10: @spacer * 10; // 间距-大-80
 
+@text-line-height-s: var(--td-line-height-body-small);
+@text-line-height-base: var(--td-line-height-body-medium);
+@text-line-height-l: var(--td-line-height-body-large);
+@text-line-height-xl: var(--td-line-height-title-large);
+@text-line-height-xxl: var(--td-line-height-headline-large);
+
 // Font
 @font-size: 10px;
-@font-size-s: @font-size * 1.2; // 字号-五级字号
-@font-size-base: @font-size * 1.4; // 字号-四级字号
-@font-size-l: @font-size * 1.6; // 字号-三级字号
-@font-size-xl: @font-size * 2; // 字号-二级字号
-@font-size-xxl: @font-size * 3.6; // 字号-一级字号
+@font-size-s: var(--td-font-size-body-small);
+@font-size-base: var(--td-font-size-body-medium);
+@font-size-l: var(--td-font-size-body-large);
+@font-size-xl: var(--td-font-size-title-large);
+@font-size-xxl: var(--td-font-size-headline-large);
 
-// Line Height
-@text-line-height: 1.5; // 行高-常规
-@text-line-height-s: 20px; // 行高-对应五级文字
-@text-line-height-base: 22px; // 行高-对应四级文字
-@text-line-height-l: 24px; // 行高-对应三级文字
-@text-line-height-xl: 28px; // 行高-对应二级文字
-@text-line-height-xxl: 44px; //行高-对应一级文字
+@font-family: var(--td-font-family); // 字体-磅数-常规
+@font-family-medium: var(--td-font-family-medium); // 字体-磅数-粗体
 
-@font-family: PingFang SC, Microsoft YaHei, Arial Regular; // 字体-磅数-常规
-@font-family-medium: PingFang SC, Microsoft YaHei, Arial Medium; // 字体-磅数-粗体
+// 使用以下与Design Token对应的font token开发组件对应字体、行高
+@font-link-small: var(--td-font-link-small);
+@font-link-medium: var(--td-font-link-medium);
+@font-link-large: var(--td-font-link-large);
+@font-mark-small: var(--td-font-mark-small);
+@font-mark-medium: var(--td-font-mark-medium);
+@font-body-small: var(--td-font-body-small);
+@font-body-medium: var(--td-font-body-medium);
+@font-body-large: var(--td-font-body-large);
+@font-title-small: var(--td-font-title-small);
+@font-title-medium: var(--td-font-title-medium);
+@font-title-large: var(--td-font-title-large);
+@font-headline-small: var(--td-font-headline-small);
+@font-headline-medium: var(--td-font-headline-medium);
+@font-headline-large: var(--td-font-headline-large);
+@font-display-medium: var(--td-font-display-medium);
+@font-display-large: var(--td-font-display-large);
 
 // Border Radius
-@border-radius: 3px; // 圆角-全局
-@border-radius-50: 50%; // 圆角-全圆角
+@border-radius-small: var(--td-radius-small); // 圆角-2
+@border-radius-default: var(--td-radius-default); // 圆角-3
+@border-radius-medium: var(--td-radius-medium); // 圆角-6
+@border-radius-large: var(--td-radius-large); // 圆角-9
+@border-radius-extraLarge: var(--td-radius-extraLarge); // 圆角-12
+@border-radius-round: var(--td-radius-round); // 圆角-999
+@border-radius-circle: var(--td-radius-circle); // 圆角-全圆角
 
 // 表单相关
 @form-height: 30px;
@@ -239,6 +337,8 @@
 
 // 滚动条颜色
 @scrollbar-color: var(--td-scrollbar-color);
+// 滚动条悬浮颜色
+@scrollbar-hover-color: var(--td-scrollbar-hover-color);
 // 滚动条轨道颜色
 @scroll-track-color: var(--td-scroll-track-color);
 
@@ -271,5 +371,7 @@
 @z-index-loading: 3500;
 @z-index-message: 5000;
 @z-index-Popup: 5500;
+@z-index-Tooltip: 5600;
 @z-index-Notification: 6000;
 @z-index-dragging: 6500;
+@z-index-guide: 999999;

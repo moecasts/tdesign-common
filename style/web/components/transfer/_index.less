@@ -2,11 +2,12 @@
 
 @import "./_var.less";
 
-@import "../../_variables.less";
+@import "../../mixins/_reset.less";
 
 .@{prefix}-transfer {
-  font-size: @transfer-font-size;
-  line-height: @transfer-line-height;
+  .reset;
+
+  font: @transfer-font;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -41,6 +42,7 @@
       width: @transfer-list-header-width;
       padding: @transfer-list-header-padding;
       margin: @transfer-list-header-margin;
+      box-sizing: border-box;
 
       & + :not(.@{prefix}-transfer__list--with-search) {
         border-top: @transfer-border;
@@ -70,7 +72,7 @@
     &-body {
       position: relative;
       height: 100%;
-      padding: @transfer-list-body-padding;
+      box-sizing: border-box;
     }
 
     &--with-search {
@@ -86,7 +88,8 @@
       .@{prefix}-checkbox-group {
         width: 100%;
         flex-direction: column;
-        gap: @spacer-s;
+        gap: @transfer-list-checkbox-group-gap;
+        margin: @transfer-list-checkbox-group-margin;
 
         .@{prefix}-checkbox {
           margin-right: @transfer-list-margin-horizontal;
@@ -97,9 +100,11 @@
 
           &__label {
             margin: 0;
+            flex: 1;
 
             > span {
               margin-left: @transfer-list-item-text-margin-left;
+              display: inline-block;
             }
           }
 
@@ -113,7 +118,7 @@
       display: flex;
       cursor: pointer;
       margin: @transfer-list-item-margin;
-      border-radius: @transfer-border-radius;
+      border-radius: @border-radius-default;
       transition: background-color @anim-duration-base @anim-time-fn-easing;
 
       &:first-child {
@@ -148,7 +153,6 @@
       height: @transfer-list-pagination-height;
       vertical-align: middle;
       padding: @transfer-list-pagination-padding;
-      line-height: @transfer-list-pagination-line-height;
     }
 
     &-footer {
@@ -166,18 +170,7 @@
     margin: @transfer-operations-margin;
     vertical-align: middle;
     overflow: hidden;
-
-    button {
-      display: block;
-      padding: @transfer-operations-button-padding;
-      height: @transfer-operations-button-height;
-      line-height: @transfer-operations-button-line-height;
-      transition: none; // 不要有过渡效果 不然在整体里面很突兀 会有跳动感
-    }
-
-    button:first-child {
-      margin-bottom: @transfer-operations-button-first-margin-bottom;
-    }
+    gap: @transfer-operations-gap;
 
     .t-icon {
       font-size: @transfer-operations-icon-size;
@@ -185,10 +178,6 @@
 
     .t-icon + .t-button__text {
       margin-left: 0;
-    }
-
-    .t-button--icon-only {
-      width: @transfer-operations-button-icon-width;
     }
   }
 
@@ -206,6 +195,7 @@
     top: 0;
     width: 100%;
     padding: @transfer-list-search-wrapper-margin;
+    box-sizing: border-box;
   }
 }
 
@@ -222,6 +212,11 @@
 
   .@{prefix}-transfer__list {
     height: auto;
+
+    .@{prefix}-tree {
+      padding: @transfer-list-with-tree-padding;
+      margin: @transfer-list-with-tree-margin;
+    }
   }
 }
 

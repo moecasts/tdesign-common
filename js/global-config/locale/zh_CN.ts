@@ -9,7 +9,7 @@ export default {
   },
   cascader: {
     empty: '暂无数据',
-    loadingText: '',
+    loadingText: '加载中',
     placeholder: '请选择',
   },
   calendar: {
@@ -22,7 +22,7 @@ export default {
     today: '今天',
     thisMonth: '本月',
     week: '一,二,三,四,五,六,日',
-    cellMonth: '一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月',
+    cellMonth: '1 月,2 月,3 月,4 月,5 月,6 月,7 月,8 月,9 月,10 月,11 月,12 月',
   },
   transfer: {
     title: '{checked} / {total} 项',
@@ -91,7 +91,8 @@ export default {
     },
     weekdays: ['一', '二', '三', '四', '五', '六', '日'],
     months: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月'],
-    rangeSeparator: ' 至 ',
+    quarters: ['一季度', '二季度', '三季度', '四季度'],
+    rangeSeparator: ' - ',
     direction: 'ltr',
     format: 'YYYY-MM-DD',
     dayAriaLabel: '日',
@@ -110,15 +111,17 @@ export default {
     now: '当前',
   },
   upload: {
-    sizeLimitMessage: '图片大小不能超过 {sizeLimit}',
+    sizeLimitMessage: '文件大小不能超过 {sizeLimit}',
     cancelUploadText: '取消上传',
     triggerUploadText: {
       fileInput: '选择文件',
       image: '点击上传图片',
       normal: '点击上传',
-      reupload: '重新上传',
-      continueUpload: '继续上传',
+      // 选择文件和上传文件是 2 个步骤，文本需明确步骤
+      reupload: '重新选择',
+      continueUpload: '继续选择',
       delete: '删除',
+      uploading: '上传中',
     },
     dragger: {
       dragDropText: '释放鼠标',
@@ -176,4 +179,22 @@ export default {
     recentColorTitle: '最近使用颜色',
     clearConfirmText: '确定清空最近使用的颜色吗？',
   },
-};
+  guide: {
+    finishButtonProps: {
+      content: '完成',
+      theme: 'primary'
+    },
+    nextButtonProps: {
+      content: '下一步',
+      theme: 'primary'
+    },
+    skipButtonProps: {
+      content: '跳过',
+      theme: 'default'
+    },
+    prevButtonProps: {
+      content: '上一步',
+      theme: 'default'
+    },
+  },
+} as const;

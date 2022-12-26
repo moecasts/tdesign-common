@@ -129,6 +129,36 @@ export function getCharacterLength(str: string, maxCharacter?: number) {
 }
 
 /**
+ * 返回 Unicode 字符长度
+ * '👨'.length === 2
+ * getUnicodeLength('👨') === 1
+ * @param str
+ * @returns {number}
+ */
+export function getUnicodeLength(str?: string): number {
+  return [...(str ?? '')].length;
+}
+
+/**
+ * 修正 Unicode 最大字符长度
+ * '👨👨👨'.slice(0, 2) === '👨'
+ * limitUnicodeMaxLength('👨👨👨', 2) === '👨👨'
+ * @param str
+ * @param maxLength
+ * @param oldStr
+ * @returns {string}
+ */
+export function limitUnicodeMaxLength(
+  str?: string,
+  maxLength?: number,
+  oldStr?: string
+): string {
+  // 旧字符满足字数要求则返回
+  if ([...(oldStr ?? '')].slice().length === maxLength) return oldStr || '';
+  return [...(str ?? '')].slice(0, maxLength).join('');
+}
+
+/**
  * 兼容样式中支持number/string类型的传值 得出最后的结果。
  * @param param number或string类型的可用于样式上的值
  * @returns 可使用的样式值。

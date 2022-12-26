@@ -6,7 +6,11 @@
 
 @import "./_mixin.less";
 
+@import "../../mixins/_reset.less";
+
 .@{prefix}-comment {
+  .reset;
+
   width: 100%;
   color: @comment-text-color-default;
 
@@ -18,68 +22,73 @@
     flex-shrink: 0;
     margin-right: @comment-avatar-margin-right;
     cursor: pointer;
+    display: flex;
   }
 
   &__avatar-image {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
+    width: @comment-avatar-size;
+    height: @comment-avatar-size;
+    border-radius: @border-radius-circle;
   }
 
   &__content {
     flex: auto;
-    font-size: @comment-content-text-size;
+    font: @comment-content-text-size;
   }
 
   &__author {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: baseline;
     margin-bottom: @comment-author-margin-bottom;
-
-    & > span {
-      padding-right: @comment-padding-s;
-    }
   }
 
   &__name {
-    font-size: @comment-author-text-size;
-    line-height: @comment-text-height;
-    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    font: @comment-author-text-size;
+    padding-right: @comment-author-name-padding-right;
     cursor: pointer;
   }
 
   &__time {
-    font-size: @comment-secondary-text-size;
-    line-height: @comment-text-height;
+    font: @comment-secondary-text-size;
+    padding-right: @comment-author-time-padding-right;
     color: @comment-text-color-secondary;
   }
 
   &__detail {
     word-break: break-all;
-    line-height: @comment-content-text-height;
+    font: @comment-content-text-size;
   }
 
   &__quote {
     margin-top: @comment-quote-margin-top;
     border-left: 4px solid @comment-border-color-default;
-    padding-left: 16px;
+    padding-left: @comment-quote-padding-left;
+
+    & .@{prefix}-comment {
+      &__name,
+      &__detail {
+        color: @text-color-secondary;
+      }
+    }
   }
 
   &__actions {
     margin-top: @comment-actions-margin-top;
     display: flex;
     justify-content: flex-end;
+    list-style: none;
+    padding: 0;
+    gap: @comment-actions-gap;
 
-    & > li {
-      color: @comment-text-color-secondary;
-      margin-left: @comment-action-margin-left;
-      font-size: @comment-secondary-text-size;
-      cursor: pointer;
-      user-select: none;
+    .@{prefix}-button--variant-text {
+      color: @text-color-placeholder;
 
-      &:hover {
-        color: @comment-text-color-hover;
+      .@{prefix}-button__text {
+        gap: @comment-actions-gap;
       }
     }
   }
@@ -88,6 +97,19 @@
     margin-top: @comment-reply-margin-top;
     margin-left: @comment-reply-margin-left;
     background-color: @comment-bg-color-secondary;
-    padding: 16px 24px;
+    border-radius: @border-radius-medium;
+    padding: @comment-reply-padding;
+
+    .@{prefix}-button--variant-text {
+      color: @text-color-placeholder;
+
+      &:hover {
+        background-color: @bg-color-secondarycontainer-hover;
+      }
+
+      .@{prefix}-button__text {
+        gap: @comment-actions-gap;
+      }
+    }
   }
 }

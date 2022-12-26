@@ -29,19 +29,16 @@
 /**
  * 尺寸
  */
-@drawer-icon-size: @font-size-l;
-@drawer-header-height: 56px;
-@drawer-footer-height: 56px;
-@drawer-close-btn-size: @icon-l;
+@drawer-icon-size: calc(@font-size-base + 2px);
+@drawer-header-height: @comp-size-xxxl;
+@drawer-close-btn-size: @comp-size-xs;
 @drawer-content-wrapper-size: 300px;
-@drawer-header-font-weight: normal;
-@drawer-header-line-height: unset;
 
 /**
  * 字体
  */
-@drawer-body-text-font-size: @font-size-base;
-@drawer-header-font-size: @font-size-l;
+@drawer-body-text-font-size: @font-body-medium;
+@drawer-header-font-size: @font-title-medium;
 
 /**
  * 动画
@@ -53,19 +50,19 @@
 /**
  * 间距
  */
-@drawer-footer-padding: 10px @spacer-2;
-@drawer-header-padding: @spacer-2 @spacer-2;
-@drawer-body-padding: @spacer-2;
-@drawer-footer-btn-margin-left: @spacer-1;
+@drawer-footer-padding: @comp-paddingTB-l @comp-paddingLR-l;
+@drawer-header-padding: 0 @comp-paddingLR-l;
+@drawer-body-padding: @comp-paddingTB-l @comp-paddingLR-l;
+@drawer-footer-btn-margin-left: @comp-margin-s;
 
 /**
  * 位置
  */
-@drawer-close-btn-position-top: 16px;
-@drawer-close-btn-position-right: 16px;
+@drawer-close-btn-position-top: @comp-margin-s;
+@drawer-close-btn-position-right: @comp-margin-s;
 @drawer-footer-text-align: left;
 
 /**
  * 边框弧度
  */
-@drawer-header-border-radius: 2px 2px 0 0;
+@drawer-header-border-radius: @border-radius-small @border-radius-small 0 0;

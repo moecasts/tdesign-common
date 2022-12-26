@@ -1,6 +1,8 @@
 import difference from 'lodash/difference';
 import camelCase from 'lodash/camelCase';
 import isPlainObject from 'lodash/isPlainObject';
+import mitt from 'mitt';
+
 import { TreeNode } from './tree-node';
 import {
   TreeNodeValue,
@@ -8,11 +10,13 @@ import {
   TypeTimer,
   TypeTargetNode,
   TypeTreeNodeData,
+  TypeTreeItem,
   TypeTreeStoreOptions,
   TypeTreeFilter,
   TypeTreeFilterOptions,
   TypeRelatedNodesOptions,
   TypeTreeEventState,
+  TypeTreeNodeModel,
 } from './types';
 
 // 构建一个树的数据模型
@@ -55,6 +59,12 @@ export class TreeStore {
   // 树节点过滤器
   public prevFilter: TypeTreeFilter;
 
+  // 一个空节点 model
+  public nullNodeModel: TypeTreeNodeModel;
+
+  // 事件派发器
+  public emitter: ReturnType<typeof mitt>;
+
   public constructor(options: TypeTreeStoreOptions) {
     const config: TypeTreeStoreOptions = {
       prefix: 't',
@@ -68,6 +78,7 @@ export class TreeStore {
       checkable: false,
       checkStrictly: false,
       disabled: false,
+      draggable: false,
       load: null,
       lazy: false,
       valueMode: 'onlyLeaf',
@@ -92,6 +103,18 @@ export class TreeStore {
     this.updateTimer = null;
     // 在子节点增删改查时，将此属性设置为 true，来触发视图更新
     this.shouldReflow = false;
+    this.emitter = mitt();
+    this.initNullNodeModel();
+  }
+
+  // 初始化空节点 model
+  public initNullNodeModel() {
+    // 空节点，用于判定当前的 filterText 是否为空，如果 filter(nullNode) 为 true, 那么可以判定 filterText 为空
+    // 这里初始化空节点的方式似乎不是很完美
+    const nullNode = new TreeNode(this, { value: '', label: '', children: [] });
+    this.nullNodeModel = nullNode.getModel();
+    // 需要将节点从树中移除
+    nullNode.remove();
   }
 
   // 配置选项
@@ -299,7 +322,7 @@ export class TreeStore {
   }
 
   // 在目标节点之前插入节点
-  public insertBefore(value: TypeTargetNode, item: TypeTreeNodeData): void {
+  public insertBefore(value: TypeTargetNode, item: TypeTreeItem): void {
     const node = this.getNode(value);
     if (node) {
       node.insertBefore(item);
@@ -307,7 +330,7 @@ export class TreeStore {
   }
 
   // 在目标节点之后插入节点
-  public insertAfter(value: TypeTargetNode, item: TypeTreeNodeData): void {
+  public insertAfter(value: TypeTargetNode, item: TypeTreeItem): void {
     const node = this.getNode(value);
     if (node) {
       node.insertAfter(item);
@@ -519,11 +542,11 @@ export class TreeStore {
   // 替换选中态列表
   public replaceChecked(list: TreeNodeValue[]): void {
     this.resetChecked();
-    this.setChecked(list);
+    this.setChecked(list, true);
   }
 
   // 批量设置选中态
-  public setChecked(list: TreeNodeValue[]): void {
+  public setChecked(list: TreeNodeValue[], isFromValueChange?: boolean): void {
     const { valueMode, checkStrictly, checkable } = this.config;
     if (!checkable) return;
     list.forEach((val: TreeNodeValue) => {
@@ -536,7 +559,7 @@ export class TreeStore {
           });
         } else {
           this.checkedMap.set(val, true);
-          node.updateChecked();
+          node.updateChecked(isFromValueChange);
         }
       }
     });
@@ -617,12 +640,13 @@ export class TreeStore {
 
   // 触发绑定的事件
   public emit(name: string, state?: TypeTreeEventState): void {
-    const config = this.config || {};
+    const { config, emitter } = this;
     const methodName = camelCase(`on-${name}`);
     const method = config[methodName];
     if (typeof method === 'function') {
       method(state);
     }
+    emitter.emit(name, state);
   }
 
   // 锁定过滤节点的路径节点
@@ -638,13 +662,14 @@ export class TreeStore {
       });
     }
 
+    const currentFilter = config.filter;
     // 当前没有过滤器
     // 则无需处理锁定节点
-    if (!config.filter) {
-      return;
-    }
-    this.prevFilter = config.filter;
+    if (!currentFilter || typeof currentFilter !== 'function') return;
 
+    if (currentFilter(this.nullNodeModel)) return;
+
+    this.prevFilter = config.filter;
     // 构造路径节点map
     const map = new Map();
 

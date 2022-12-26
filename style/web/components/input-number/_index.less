@@ -8,10 +8,14 @@
 
 @import "../../utilities/_animation.less";
 
+@import "../../mixins/_reset.less";
+
 @inputCls: ~"@{prefix}-input";
 @inputNumberCls: ~"@{prefix}-input-number";
 
 .@{inputNumberCls} {
+  .reset;
+
   display: inline-block;
   position: relative;
   box-sizing: border-box;
@@ -34,6 +38,20 @@
     appearance: textfield;
   }
 
+  > .@{prefix}-input__tips {
+    position: absolute;
+    left: 0;
+  }
+
+  // 输入框和右置内容之间需要间距
+  input + .@{prefix}-input__suffix {
+    margin-left: @input-number-padding-horizontal-default;
+  }
+
+  .@{prefix}-input__prefix {
+    margin-right: @input-number-padding-horizontal-default;
+  }
+
   .@{inputCls} {
     color: @input-number-inner-color;
   }
@@ -43,7 +61,12 @@
     width: auto;
 
     &.@{prefix}-is-controls-right {
-      min-width: 88px;
+      min-width: auto;
+      width: auto;
+    }
+
+    .@{prefix}-input__inner {
+      min-width: 42px;
     }
 
     &:not(.@{inputNumberCls}--column) .@{prefix}-input-number__increase {
@@ -59,7 +82,7 @@
     top: 0;
     border: 1px solid @input-number-button-border-color;
     box-sizing: border-box;
-    border-radius: @border-radius;
+    border-radius: @border-radius-default;
     background-color: @input-number-button-bg-color;
     display: flex;
     justify-content: center;
@@ -72,7 +95,7 @@
       color: @input-number-button-color-hover;
       border-color: @input-number-button-color-hover;
 
-      .@{prefix}-icon {
+      .t-icon {
         color: @input-number-button-color-hover;
       }
     }
@@ -82,7 +105,7 @@
       background-color: @bg-color-container-hover;
     }
 
-    .@{prefix}-icon {
+    .t-icon {
       position: relative;
       z-index: 1;
       font-size: @input-number-font-size;
@@ -94,14 +117,14 @@
       cursor: no-drop;
       background-color: @input-number-button-bg-color-disabled;
 
-      .@{prefix}-icon {
+      .t-icon {
         color: @input-number-button-color-disabled;
       }
 
       &:hover {
         border-color: @input-number-button-border-color;
 
-        .@{prefix}-icon {
+        .t-icon {
           color: @input-number-button-color-disabled;
         }
       }
@@ -140,7 +163,7 @@
     cursor: no-drop;
     background-color: @input-number-button-bg-color-disabled;
 
-    .@{prefix}-icon {
+    .t-icon {
       color: @text-color-secondary;
     }
   }
@@ -184,8 +207,7 @@
     .@{inputCls} {
       height: @input-number-inner-height-l;
       line-height: @input-number-inner-height-l;
-      padding-right: @input-number-right-button-width-l +
-        @input-number-padding-horizontal-default;
+      padding-right: calc(@input-number-right-button-width-l + @input-number-padding-horizontal-default);
     }
 
     .@{inputNumberCls}__decrease,
@@ -198,7 +220,7 @@
 
 .@{inputNumberCls}.@{inputNumberCls}--normal {
   padding: 0;
-  border-radius: @border-radius;
+  border-radius: @border-radius-default;
 
   &.@{prefix}-is-disabled {
     cursor: no-drop;
@@ -236,10 +258,8 @@
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    padding-right: (
-      @input-number-right-button-width + @input-number-padding-horizontal-default
-    );
-    border-radius: @border-radius;
+    padding-right: calc(@input-number-right-button-width + @input-number-padding-horizontal-default);
+    border-radius: @border-radius-default;
   }
 
   .@{inputNumberCls}__decrease,
@@ -256,14 +276,14 @@
     visibility: hidden;
     z-index: 2;
 
-    .@{prefix}-icon {
+    .t-icon {
       font-size: @input-number-right-font-size;
     }
 
     &:hover {
       background: @input-number-right-button-hover-bg-color;
 
-      .@{prefix}-icon {
+      .t-icon {
         color: @text-color-primary;
       }
     }
@@ -273,14 +293,14 @@
       cursor: no-drop;
       background-color: @input-number-button-bg-color-disabled;
 
-      .@{prefix}-icon {
+      .t-icon {
         color: @input-number-button-color-disabled;
       }
 
       &:hover {
         border-color: @input-number-button-border-color;
 
-        .@{prefix}-icon {
+        .t-icon {
           color: @input-number-button-color-disabled;
         }
       }
@@ -293,12 +313,12 @@
 
   .@{inputNumberCls}__increase {
     top: 1px;
-    border-top-right-radius: calc(@border-radius - 1px);
+    border-top-right-radius: calc(@border-radius-default - 1px);
   }
 
   .@{inputNumberCls}__decrease {
-    top: @input-number-button-column-height + 3px;
-    border-bottom-right-radius: calc(@border-radius - 1px);
+    top: calc(@input-number-button-column-height + 3px);
+    border-bottom-right-radius: calc(@border-radius-default - 1px);
   }
 
   &.@{prefix}-size-l {
@@ -309,7 +329,7 @@
       height: @input-number-button-column-height-l;
     }
     .@{inputNumberCls}__decrease {
-      top: @input-number-button-column-height-l + 3px;
+      top: calc(@input-number-button-column-height-l + 3px);
     }
   }
 
@@ -321,7 +341,17 @@
       height: @input-number-button-column-height-s;
     }
     .@{inputNumberCls}__decrease {
-      top: @input-number-button-column-height-s + 3px;
+      top: calc(@input-number-button-column-height-s + 3px);
     }
+  }
+}
+
+.@{inputNumberCls}--row {
+  .@{prefix}-input__wrap {
+    width: initial;
+    margin-right: @comp-margin-s;
+  }
+  .@{prefix}-input-number__increase {
+    right: 0;
   }
 }

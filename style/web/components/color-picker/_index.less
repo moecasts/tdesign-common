@@ -6,15 +6,14 @@
 
 @import "./_mixin.less";
 
+@import "../../mixins/_reset.less";
+
 .@{prefix}-color-picker__panel {
   padding: 0;
   width: @color-picker-panel-width;
   background: @bg-color-container;
-  box-shadow: @shadow-2,
-    @shadow-inset-top,
-    @shadow-inset-right,
-    @shadow-inset-bottom,
-    @shadow-inset-left;
+  box-shadow: @color-picker-panel-shadow;
+  border-radius: @border-radius-medium;
   user-select: none;
 }
 
@@ -26,22 +25,26 @@
 }
 
 .@{prefix}-color-picker {
+  .reset;
+
+  &.t-popup__content {
+    box-shadow: @color-picker-panel-shadow;
+  }
+
   &__icon {
-    width: @color-picker-icon-size;
-    height: @color-picker-icon-size;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: @color-picker-icon-font-size;
-    background: @bg-color-container;
-    transition: color @anim-duration-base @anim-time-fn-easing;
+    background: transparent;
+    transition: @anim-duration-base linear;
     color: @text-color-secondary;
     border-radius: @color-picker-icon-radius;
     cursor: pointer;
 
     &:hover {
-      color: @brand-color;
       background: @bg-color-container-hover;
+      transition: @anim-duration-base linear;
     }
     &.@{prefix}-is-disabled {
       color: @text-color-disabled;
@@ -55,39 +58,21 @@
   align-items: center;
   justify-content: space-between;
   padding: @color-picker-panel-padding;
-  border-bottom: 1px solid @border-level-1-color;
   position: relative;
   z-index: 2;
 
   .@{prefix}-color-picker__close {
     flex-shrink: 0;
   }
+
+  & + .@{prefix}-color-picker__body {
+    padding-top: 0;
+  }
 }
 
 .@{prefix}-color-picker__body {
   padding: @color-picker-panel-padding;
-}
-
-.@{prefix}-color-picker--bg-alpha {
-  background-color: #fff;
-  background-image: linear-gradient(
-    45deg,
-    #c5c5c5 25%,
-    transparent 0,
-    transparent 75%,
-    #c5c5c5 0,
-    #c5c5c5
-  ),
-    linear-gradient(
-    45deg,
-    #c5c5c5 25%,
-    transparent 0,
-    transparent 75%,
-    #c5c5c5 0,
-    #c5c5c5
-  );
-  background-size: 6px 6px;
-  background-position: 0 0, 3px 3px;
+  padding-bottom: calc(@color-picker-panel-padding - 4px);
 }
 
 .@{prefix}-color-picker__thumb {
@@ -97,18 +82,19 @@
   border-color: currentcolor;
   width: @color-picker-slider-thumb-size;
   height: @color-picker-slider-thumb-size;
-  border-radius: 50%;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 15%);
+  border-radius: @border-radius-circle;
+  box-shadow: @color-picker-thumbs-shadow;
   background: white;
   color: @text-color-brand;
   padding: @color-picker-slider-thumb-padding;
+  box-sizing: border-box;
 
   &::before {
     content: "";
     width: 100%;
     height: 100%;
     background: currentcolor;
-    border-radius: 50%;
+    border-radius: @border-radius-circle;
     display: block;
   }
 }
@@ -141,18 +127,50 @@
   .@{prefix}-color-picker__thumb {
     width: @color-picker-saturation-thumb-size;
     height: @color-picker-saturation-thumb-size;
-    border-radius: 50%;
+    border-radius: @border-radius-circle;
     transform: translate(-50%, -50%);
   }
+}
+
+.transparentBgImage () {
+  background-image: linear-gradient(45deg, #c5c5c5 25%, transparent 0, transparent 75%, #c5c5c5 0, #c5c5c5), linear-gradient(45deg, #c5c5c5 25%, transparent 0, transparent 75%, #c5c5c5 0, #c5c5c5);
+  background-size: 6px 6px;
+  background-position: 0 0, 3px 3px;
+}
+
+.@{prefix}-color-picker__slider-wrapper {
+  border-radius: @color-picker-slider-wrapper-radius;
+  padding: @color-picker-slider-wrapper-padding;
+  position: relative;
+
+  &--hue-type {
+    background: red;
+  }
+
+  &--alpha-type {
+    background: #fff;
+    .transparentBgImage();
+  }
+}
+
+.@{prefix}-color-picker__slider-padding {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: @color-picker-slider-height;
+  border-radius: @color-picker-slider-wrapper-radius;
 }
 
 .@{prefix}-color-picker__slider {
   height: @color-picker-slider-height;
   position: relative;
-  border-radius: @color-picker-slider-height;
+  border-radius: @color-picker-slider-wrapper-radius;
   cursor: pointer;
   color: transparent;
   outline: none;
+  z-index: 1;
+
   .@{prefix}-color-picker__thumb {
     transform: translate(@color-picker-slider-thumb-transform-x, -50%);
     top: 50%;
@@ -169,7 +187,6 @@
   }
 }
 
-.@{prefix}-color-picker__hue,
 .@{prefix}-color-picker__alpha,
 .@{prefix}-color-picker__format {
   margin: @color-picker-margin 0 0 0;
@@ -194,6 +211,33 @@
   }
 }
 
+.@{prefix}-color-picker__sliders-wrapper {
+  display: flex;
+  align-items: center;
+  margin: @color-picker-margin 0;
+}
+
+.@{prefix}-color-picker__sliders {
+  width: 100%;
+}
+
+.@{prefix}-color-picker__sliders-preview {
+  flex-shrink: 0;
+  margin-left: @color-picker-margin;
+  width: @color-picker-gradient-preview-width;
+  height: @color-picker-gradient-preview-height;
+  border-radius: @color-picker-gradient-preview-radius;
+  overflow: hidden;
+  background: #fff;
+  .transparentBgImage();
+
+  &-inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .@{prefix}-color-picker__gradient {
   padding: 0;
   display: flex;
@@ -211,26 +255,11 @@
     width: @color-picker-degree-width;
     .@{prefix}-input {
       margin: 0;
-      font-size: @color-picker-font-size;
+      font: @color-picker-font;
     }
     .@{prefix}-input-number {
       width: 100%;
       padding: 0;
-    }
-  }
-
-  &-preview {
-    flex-shrink: 0;
-    margin-left: 8px;
-    width: @color-picker-gradient-preview-width;
-    height: @color-picker-gradient-preview-height;
-    border-radius: @color-picker-gradient-preview-radius;
-    overflow: hidden;
-
-    .preview-inner {
-      display: block;
-      width: 100%;
-      height: 100%;
     }
   }
 
@@ -258,17 +287,15 @@
       }
       &.@{prefix}-is-active {
         z-index: 1;
-        outline: 2px solid @text-color-brand;
+        outline: 2px solid @component-border;
       }
 
       &-inner {
         display: block;
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        border-radius: @border-radius-circle;
         overflow: hidden;
-        background-size: 4px 4px;
-        background-position: 0 0, 2px 2px;
 
         &::before {
           content: "";
@@ -289,45 +316,31 @@
 
   &--item {
     &:first-child {
-      width: @color-picker-input-format-width;
       flex-shrink: 0;
     }
 
     &:last-child {
       flex: 1;
-      overflow: hidden;
     }
     .@{prefix}-size-m, .@{prefix}-input.@{prefix}-size-m {
-      font-size: @color-picker-font-size;
+      font: @color-picker-font;
     }
     .@{prefix}-input-number .@{prefix}-input {
       margin: 0;
-    }
-    .@{prefix}-select {
-      padding-right: 10px;
-
-      &__single {
-        margin-left: 4px;
-      }
-
-      &__right-icon {
-        margin: 0 4px;
-      }
     }
 
     .input-group {
       display: flex;
       align-items: center;
       justify-content: space-around;
-      margin-left: 9px;
+      margin-left: @color-picker-input-format-margin-left;
 
       &__item {
         flex: 1;
-        overflow: hidden;
+        width: 0;
         margin-left: -1px;
         .@{prefix}-input {
           padding: 0 1px;
-          font-size: @color-picker-font-size;
 
           &:focus,
           &:focus-within,
@@ -364,6 +377,9 @@
   }
 
   &-mode-select {
+    width: @color-picker-select-format-width;
+    display: flex;
+
     .t-select,
     .t-input {
       padding-right: 0;
@@ -374,13 +390,13 @@
     }
 
     .t-select__right-icon {
-      margin: 0 4px 0 0;
+      margin-right: @color-picker-select-format-margin-right;
     }
   }
 }
 
 .@{prefix}-color-picker__swatches-wrap {
-  margin: @color-picker-margin 0 0 0;
+  margin-top: @color-picker-margin;
   position: relative;
 
   .@{prefix}-color-picker__swatches {
@@ -390,9 +406,7 @@
     }
 
     &--title {
-      font-size: @color-picker-font-size;
-      font-weight: normal;
-      margin: 0 0 12px;
+      font: @color-picker-font;
       padding: 0;
       color: @text-color-primary;
       display: flex;
@@ -406,30 +420,14 @@
       align-items: center;
       font-size: 0;
       .@{prefix}-color-picker__icon {
-        width: 16px;
-        height: 16px;
-        margin-left: @color-picker-margin;
-      }
-    }
-
-    &--remove {
-      position: relative;
-      // 不使用popconfirm 组件， 这里绝对定位到正上方
-      .@{prefix}-popup {
-        position: absolute;
-        inset: auto auto 0 0;
-        margin: 0;
-        bottom: 30px;
-        left: 10px;
-        transform: translateX(-50%);
-        cursor: default;
-      }
-      .@{prefix}-popconfirm__content {
-        width: 220px;
+        width: @color-picker-swatch-icon-size;
+        height: @color-picker-swatch-icon-size;
+        margin-left: @color-picker-swatch-action-margin-left;
       }
     }
 
     &--items {
+      width: 100%;
       list-style: none;
       display: grid;
       grid-template-columns: repeat(@color-picker-swatch-columns, @color-picker-swatch-width);
@@ -437,17 +435,17 @@
       max-height: @color-picker-swatch-rows-max-height;
       overflow-x: hidden;
       overflow-y: auto;
-      margin: @color-picker-swatch-wrap-margin;
-      padding: 0;
+      padding: @color-picker-swatch-item-padding;
+      position: relative;
+      left: @color-picker-swatch-item-left-negative-padding;
     }
 
     &--item {
       display: flex;
       width: @color-picker-swatch-width;
       height: @color-picker-swatch-height;
-      border-radius: 50%;
+      border-radius: @border-radius-default;
       padding: @color-picker-swatch-padding;
-      border: @color-picker-swatch-border-size solid transparent;
       overflow: hidden;
       cursor: pointer;
       align-items: center;
@@ -455,6 +453,12 @@
       position: relative;
       transform-origin: center;
       transition: all @anim-duration-base @anim-time-fn-easing;
+      box-sizing: border-box;
+
+      &:hover {
+        transform: scale(1.25);
+        transform-origin: center;
+      }
 
       // 暂时先不删，待react同步后再删除
       &__color {
@@ -463,7 +467,8 @@
         position: relative;
         overflow: hidden;
         border: 1px solid @component-border;
-        border-radius: 50%;
+        border-radius: @border-radius-default;
+        flex-shrink: 0;
       }
 
       // 暂时先不删，待react同步后再删除
@@ -489,14 +494,16 @@
       height: 100%;
       position: relative;
       overflow: hidden;
-      border: 1px solid @component-border;
-      border-radius: 50%;
+      border-radius: @border-radius-default;
+      box-sizing: border-box;
     }
 
     &--inner {
       width: 100%;
       height: 100%;
       display: block;
+      border-radius: @border-radius-default;
+      box-shadow: @colot-picker-swatch-item-color-inset-shadow;
     }
   }
 }
@@ -509,23 +516,36 @@
       width: fit-content;
     }
     .@{prefix}-input {
-      padding: 0 8px 0 6px;
+      padding: @color-picker-trigger-input-padding;
     }
 
     &__color {
-      width: 24px;
-      height: 24px;
-      margin-right: 4px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
 
       .color-inner {
         border: 1px solid @scrollbar-color;
         display: block;
-        width: 100%;
-        height: 100%;
+        width: @color-picker-trigger-input-color-inner-size;
+        height: @color-picker-trigger-input-color-inner-size;
         color: transparent;
         position: relative;
+        border-radius: @border-radius-small;
       }
     }
+  }
+}
+
+.@{prefix}-color-picker__gradient-slider {
+  padding: @color-picker-slider-wrapper-padding;
+  border-radius: @color-picker-slider-wrapper-radius;
+
+  .@{prefix}-color-picker--bg-alpha {
+    background: #fff;
+    .transparentBgImage();
   }
 }
 
@@ -549,15 +569,7 @@
 
 // 覆盖select-option 默认样式，使其更紧凑点
 .@{prefix}-color-picker__select-options {
-  .@{prefix}-select__dropdown-inner {
-    padding: 4px;
-  }
-  .@{prefix}-select-option {
-    height: 30px;
-    padding: 5px 8px;
-    font-size: 12px;
-    + .@{prefix}-select-option {
-      margin-top: 2px;
-    }
+  > .@{prefix}-popup__content {
+    box-shadow: @shadow-1, @shadow-inset-top, @shadow-inset-right, @shadow-inset-bottom, @shadow-inset-left;
   }
 }

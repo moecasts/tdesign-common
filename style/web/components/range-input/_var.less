@@ -34,30 +34,33 @@
 @range-input-extra-color-error: @error-color;
 
 // 间距
-@range-input-padding-default: @spacer-s @spacer @spacer-s @spacer-s;
-@range-input-status-position-right: -@spacer-3;
+@range-input-padding-default: @comp-paddingTB-xs @comp-paddingLR-s @comp-paddingTB-xs @comp-paddingLR-xs;
+@range-input-status-position-right: calc(0px - @comp-margin-xxxl);
+@range-input-inner-gap: @comp-margin-s;
+@range-input-inner-padding: 0 @comp-paddingLR-xs;
 
 // 尺寸
-@range-input-height-s: (@spacer * 3);
-@range-input-height-default: (@spacer * 4);
-@range-input-height-l: (@spacer * 5);
+@range-input-height-s: @comp-size-xs;
+@range-input-height-default: @comp-size-m;
+@range-input-height-l: @comp-size-xl;
 @range-input-inner-icon-font-size: @icon-default;
 
 // 字号
-@range-input-font-size-l: @font-size-l;
-@range-input-font-size: @font-size-base;
-@range-input-font-size-s: @font-size-s;
-@range-input-extra-font-size: @font-size-s;
+@range-input-font-l: @font-body-large;
+@range-input-font: @font-body-medium;
+@range-input-font-s: @font-body-small;
+@range-input-extra-font: @font-body-small;
 
 // 边框
-@range-input-border-radius: @border-radius;
+@range-input-border-radius: @border-radius-small;
 
 // box
 @range-input-box-shadow-color-default-focus: @brand-color-focus;
 @range-input-box-shadow-color-success-focus: @success-color-focus;
 @range-input-box-shadow-color-warning-focus: @warning-color-focus;
 @range-input-box-shadow-color-error-focus: @error-color-focus;
-@range-input-box-shadow-focus: 0 0 0 2px @range-input-box-shadow-color-default-focus;
+@range-input-box-shadow-focus: 0 0 0 2px
+  @range-input-box-shadow-color-default-focus;
 
 // 动画
 @range-input-inner-transition: all @anim-time-fn-easing @anim-duration-base;

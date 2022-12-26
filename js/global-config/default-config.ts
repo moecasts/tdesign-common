@@ -11,7 +11,13 @@ export default {
     fillWithZero: true,
     controllerConfig: undefined,
   },
+  icon: {},
+  input: {
+    autocomplete: '',
+  },
   dialog: {
+    closeOnEscKeydown: true,
+    closeOnOverlayClick: true,
     confirmBtnTheme: {
       default: 'primary',
       info: 'primary',
@@ -20,6 +26,7 @@ export default {
       success: 'primary',
     },
   },
+  message: {},
   popconfirm: {
     confirmBtnTheme: {
       default: 'primary',
@@ -42,6 +49,12 @@ export default {
   select: {
     // 清除按钮
     clearIcon: undefined,
+    filterable: false,
+  },
+  drawer: {
+    closeOnEscKeydown: true,
+    closeOnOverlayClick: true,
+    size: 'small',
   },
   tree: {
     // 目录层级图标
@@ -57,6 +70,6 @@ export default {
     closeIcon: undefined,
   },
   form: {
-    requiredMark: true,
+    requiredMark: undefined,
   },
-};
+} as const;
