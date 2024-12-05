@@ -1,3 +1,9 @@
+import isString from 'lodash/isString';
+import isNull from 'lodash/isNull';
+import isUndefined from 'lodash/isUndefined';
+import isNumber from 'lodash/isNumber';
+import isArray from 'lodash/isArray';
+
 export function omit(obj: object, fields: string[]): object {
   const shallowCopy = {
     ...obj,
@@ -13,7 +19,7 @@ export function removeEmptyAttrs<T>(obj: T): Partial<T> {
   const newObj = {};
 
   Object.keys(obj).forEach((key) => {
-    if (typeof obj[key] !== 'undefined' || obj[key] === null) {
+    if (!isUndefined(obj[key]) || isNull(obj[key])) {
       newObj[key] = obj[key];
     }
   });
@@ -37,10 +43,10 @@ export type Gradients = { [percent: string]: string };
 export type FromTo = { from: string; to: string };
 export type LinearGradient = { direction?: string } & (Gradients | FromTo);
 export function getBackgroundColor(color: string | string[] | LinearGradient): string {
-  if (typeof color === 'string') {
+  if (isString(color)) {
     return color;
   }
-  if (Array.isArray(color)) {
+  if (isArray(color)) {
     if (color[0] && color[0][0] === '#') {
       color.unshift('90deg');
     }
@@ -66,6 +72,8 @@ export function getBackgroundColor(color: string | string[] | LinearGradient): s
  * @returns 获取 ie 浏览器版本
  */
 export function getIEVersion() {
+  if (typeof navigator === 'undefined' || !navigator) return Number.MAX_SAFE_INTEGER;
+
   const { userAgent } = navigator;
   // 判断是否IE<11浏览器
   const isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1;
@@ -87,13 +95,35 @@ export function getIEVersion() {
 }
 
 /**
+ * Safari Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15
+ * FireFox Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/114.0
+ * Chrome Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36
+ * Chrome 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.3
+ * 搜狗 Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.
+ * 360 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.6045.9 Safari/537.36 QIHU 360EE
+ */
+export function getFlexGapPolyFill() {
+  if (typeof navigator === 'undefined' || !navigator) return false;
+  const ua = navigator.userAgent;
+  const chromeMatch = ua.match(/AppleWebKit.+Chrome\/(.+) Safari\/.+/i);
+  if (Number(chromeMatch?.[1]?.split('.')[0]) < 100) return true;
+  const safariMatch = ua.match(/AppleWebKit.+Version\/(.+) Safari\/.+/i);
+  if (Number(safariMatch?.[1]?.split('.')[0]) < 12) return true;
+  const ieVersion = getIEVersion();
+  if (ieVersion <= 11) return true;
+  const fireFoxMatch = ua.match(/Firefox\/(.+)/i);
+  if (Number(fireFoxMatch?.[1]?.split('.')[0]) < 100) return true;
+  return false;
+}
+
+/**
  * 计算字符串字符的长度并可以截取字符串。
  * @param str 传入字符串
  * @param maxCharacter 规定最大字符串长度
  * @returns 当没有传入maxCharacter时返回字符串字符长度，当传入maxCharacter时返回截取之后的字符串和长度。
  */
 export function getCharacterLength(str: string, maxCharacter?: number) {
-  const hasMaxCharacter = typeof maxCharacter === 'number';
+  const hasMaxCharacter = isNumber(maxCharacter);
   if (!str || str.length === 0) {
     if (hasMaxCharacter) {
       return {
@@ -106,7 +136,7 @@ export function getCharacterLength(str: string, maxCharacter?: number) {
   let len = 0;
   for (let i = 0; i < str.length; i++) {
     let currentStringLength = 0;
-    if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
+    if (str.charCodeAt(i) > 127) {
       currentStringLength = 2;
     } else {
       currentStringLength = 1;
@@ -164,7 +194,7 @@ export function limitUnicodeMaxLength(
  * @returns 可使用的样式值。
  */
 export function pxCompat(param: string | number) {
-  return typeof param === 'number' ? `${param}px` : param;
+  return isNumber(param) ? `${param}px` : param;
 }
 
 /**
@@ -192,6 +222,15 @@ const DOM_STYLE_PROPS = [
 ];
 
 export function calculateNodeSize(targetElement: HTMLElement) {
+  if (typeof window === 'undefined') {
+    return {
+      paddingSize: 0,
+      borderSize: 0,
+      boxSizing: 0,
+      sizingStyle: '',
+    };
+  }
+
   const style = window.getComputedStyle(targetElement);
 
   const boxSizing = style.getPropertyValue('box-sizing')

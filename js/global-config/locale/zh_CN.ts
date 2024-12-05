@@ -1,11 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
 // 文件有效，为国际化做准备
+import 'dayjs/locale/zh-cn';
+
 export default {
   pagination: {
     itemsPerPage: '{size} 条/页',
     jumpTo: '跳至',
     page: '页',
-    total: '共 {total} 项数据',
+    total: '共 {total} 条数据',
   },
   cascader: {
     empty: '暂无数据',
@@ -30,6 +32,7 @@ export default {
     placeholder: '请输入关键词搜索',
   },
   timePicker: {
+    dayjsLocale: 'zh-cn',
     now: '此刻',
     confirm: '确定',
     anteMeridiem: '上午',
@@ -84,13 +87,29 @@ export default {
     placeholder: '请选择',
   },
   datePicker: {
+    dayjsLocale: 'zh-cn',
     placeholder: {
       date: '请选择日期',
       month: '请选择月份',
       year: '请选择年份',
+      quarter: '请选择季度',
+      week: '请选择周',
     },
     weekdays: ['一', '二', '三', '四', '五', '六', '日'],
-    months: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月'],
+    months: [
+      '1 月',
+      '2 月',
+      '3 月',
+      '4 月',
+      '5 月',
+      '6 月',
+      '7 月',
+      '8 月',
+      '9 月',
+      '10 月',
+      '11 月',
+      '12 月',
+    ],
     quarters: ['一季度', '二季度', '三季度', '四季度'],
     rangeSeparator: ' - ',
     direction: 'ltr',
@@ -147,6 +166,7 @@ export default {
       date: '请输入正确的${name}',
       url: '请输入正确的${name}',
       required: '${name}必填',
+      whitespace: '${name}不能为空',
       max: '${name}字符长度不能超过 ${validate} 个字符，一个中文等于两个字符',
       min: '${name}字符长度不能少于 ${validate} 个字符，一个中文等于两个字符',
       len: '${name}字符长度必须是 ${validate}',
@@ -158,6 +178,7 @@ export default {
       boolean: '${name}数据类型必须是布尔类型',
       number: '${name}必须是数字',
     },
+    colonText: '：',
   },
   input: {
     placeholder: '请输入',
@@ -178,23 +199,55 @@ export default {
     swatchColorTitle: '系统预设颜色',
     recentColorTitle: '最近使用颜色',
     clearConfirmText: '确定清空最近使用的颜色吗？',
+    singleColor: '单色',
+    gradientColor: '渐变'
   },
   guide: {
     finishButtonProps: {
       content: '完成',
-      theme: 'primary'
+      theme: 'primary',
     },
     nextButtonProps: {
       content: '下一步',
-      theme: 'primary'
+      theme: 'primary',
     },
     skipButtonProps: {
       content: '跳过',
-      theme: 'default'
+      theme: 'default',
     },
     prevButtonProps: {
       content: '上一步',
-      theme: 'default'
+      theme: 'default',
     },
+  },
+  image: {
+    errorText: '图片无法显示',
+    loadingText: '图片加载中',
+  },
+  imageViewer: {
+    errorText: '图片加载失败，可尝试重新加载',
+    mirrorTipText: '镜像',
+    rotateTipText: '旋转',
+    originalSizeTipText: '原始大小',
+  },
+  typography: {
+    expandText: '展开',
+    collapseText: '收起',
+    copiedText: '复制成功',
+  },
+  rate: {
+    rateText: ['极差', '失望', '一般', '满意', '惊喜'],
+  },
+  empty: {
+    titleText: {
+      maintenance: '建设中',
+      success: '成功',
+      fail: '失败',
+      empty: '暂无数据',
+      networkError: '网络错误',
+    },
+  },
+  descriptions: {
+    colonText: '：',
   },
 } as const;

@@ -14,10 +14,6 @@
   overflow: hidden;
   background-color: @tab-default-bg;
 
-  .t-icon {
-    font-size: @tab-icon-size;
-  }
-
   &__header {
     &.@{prefix}-is-left {
       float: left;
@@ -25,6 +21,10 @@
 
     &.@{prefix}-is-right {
       float: right;
+    }
+
+    .t-icon {
+      font-size: @tab-icon-size;
     }
   }
 
@@ -42,15 +42,24 @@
 
     &--left {
       left: 0;
+      z-index: 2;
     }
 
     &--right {
       right: 0;
+      z-index: 2;
 
       .@{prefix}-tabs__btn {
         &:first-child {
           box-shadow: @tab-bar-operations-btn-box-shadow;
         }
+      }
+
+      .@{prefix}-tabs__nav-action {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        flex: 1;
       }
     }
   }
@@ -170,6 +179,7 @@
     overflow: hidden;
     white-space: nowrap;
     transform: @tab-nav-scroll-transform;
+    z-index: 1;
   }
 
   &__nav-wrap {
@@ -350,5 +360,11 @@
   &__content {
     overflow: hidden;
     position: relative;
+  }
+}
+
+.@{prefix}-tab-panel {
+  &.@{prefix}-is-hidden {
+    display: none;
   }
 }

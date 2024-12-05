@@ -1,5 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 // 文件有效，为国际化做准备
+import 'dayjs/locale/ko';
+
 export default {
   pagination: {
     itemsPerPage: '{size} /페이지',
@@ -30,6 +32,7 @@ export default {
     placeholder: '검색할 키워드를 입력하세요',
   },
   timePicker: {
+    dayjsLocale: 'ko',
     now: '지금',
     confirm: '확신하는',
     anteMeridiem: '아침',
@@ -84,13 +87,29 @@ export default {
     placeholder: '선택해주세요',
   },
   datePicker: {
+    dayjsLocale: 'ko',
     placeholder: {
       date: '날짜를 선택하세요Z',
       month: '월을 선택하세요',
       year: '연도를 선택하세요',
+      quarter: '분기별 선택',
+      week: '요일 선택',
     },
-    weekdays: ['하나', '둘', '삼', '4', '다섯', '여섯', '낮'],
-    months: ['1 월', '2 월', '3 월', '4 월', '5 월', '6 월', '7 월', '8 월', '9 월', '10 월', '11 월', '12 월'],
+    weekdays: ['월', '화', '수', '목', '금', '토', '일'],
+    months: [
+      '1 월',
+      '2 월',
+      '3 월',
+      '4 월',
+      '5 월',
+      '6 월',
+      '7 월',
+      '8 월',
+      '9 월',
+      '10 월',
+      '11 월',
+      '12 월',
+    ],
     quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
     rangeSeparator: ' - ',
     direction: 'ltr',
@@ -120,12 +139,13 @@ export default {
       reupload: '재업로드',
       continueUpload: '계속 업로드',
       delete: '삭제',
-      uploading: '업로드'
+      uploading: '업로드',
     },
     dragger: {
       dragDropText: '마우스를 놓으십시오',
       draggingText: '이 영역으로 드래그 앤 드롭',
-      clickAndDragText: '위의 "파일 선택"을 클릭하거나 파일을 이 영역으로 끌어다 놓습니다',
+      clickAndDragText:
+        '위의 "파일 선택"을 클릭하거나 파일을 이 영역으로 끌어다 놓습니다',
     },
     file: {
       fileNameText: '파일 이름',
@@ -146,6 +166,7 @@ export default {
       date: '정확한 내용을 입력해주세요${name}',
       url: '정확한 내용을 입력해주세요${name}',
       required: '${name}필수의',
+      whitespace: '${name}은 비어 있을 수 없습니다',
       max: '${name}문자 길이는 초과할 수 없습니다 ${validate} 캐릭터，한자는 두 글자와 같다',
       min: '${name}문자 길이는 다음보다 작을 수 없습니다 ${validate} 캐릭터，한자는 두 글자와 같다',
       len: '${name}문자 길이는 다음과 같아야 합니다. ${validate}',
@@ -157,6 +178,7 @@ export default {
       boolean: '${name}데이터 유형은 부울이어야 합니다',
       number: '${name}숫자여야 합니다',
     },
+    colonText: ':',
   },
   input: {
     placeholder: '들어 오세요',
@@ -177,23 +199,55 @@ export default {
     swatchColorTitle: '시스템 기본 색상',
     recentColorTitle: '최근 사용한 색상',
     clearConfirmText: '최근에 사용한 색상을 지우시겠습니까?',
+    singleColor: '단색',
+    gradientColor: '그라데이션'
   },
   guide: {
     finishButtonProps: {
       content: '완료',
-      theme: 'primary'
+      theme: 'primary',
     },
     nextButtonProps: {
       content: '다음 단계',
-      theme: 'primary'
+      theme: 'primary',
     },
     skipButtonProps: {
       content: '건너뛰기',
-      theme: 'default'
+      theme: 'default',
     },
     prevButtonProps: {
       content: '마지막 단계',
-      theme: 'default'
+      theme: 'default',
     },
+  },
+  image: {
+    errorText: '사진을 표시할 수 없습니다.',
+    loadingText: '이미지 로딩',
+  },
+  imageViewer: {
+    errorText: '이미지를 로드하지 못했습니다. 새로고침해 보세요.',
+    mirrorTipText: '미러 이미지',
+    rotateTipText: '회전하다',
+    originalSizeTipText: '원본 크기',
+  },
+  typography: {
+    expandText: '펼치다',
+    collapseText: '접다',
+    copiedText: '복사 성공',
+  },
+  rate: {
+    rateText: ['최악', '실망', '보통', '만족', '놀람'],
+  },
+  empty: {
+    titleText: {
+      maintenance: '건설 중',
+      success: '성공',
+      fail: '실패',
+      empty: '데이터 없음',
+      networkError: '네트워크 오류',
+    },
+  },
+  descriptions: {
+    colonText: ':',
   },
 } as const;

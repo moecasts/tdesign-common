@@ -7,7 +7,8 @@
 @import "../../mixins/_reset.less";
 
 .button-attr-color(@theme, @attr, @ghost: false) {
-  &:hover {
+  &:hover,
+  &:focus-visible {
     @{attr}: @@theme-hover;
   }
 
@@ -301,11 +302,6 @@
     .button-size(@btn-height-l , @btn-font-l, @btn-icon-size-l, @btn-padding-horizontal-l);
   }
 
-  &.@{prefix}-size-full-width {
-    display: flex;
-    width: 100%;
-  }
-
   &--shape-square {
     width: @btn-height-default;
     padding: 0;
@@ -357,6 +353,11 @@
       padding: 0;
       border-radius: @btn-shape-border-radius-l;
     }
+  }
+
+  &.@{prefix}-size-full-width {
+    display: flex;
+    width: 100%;
   }
 }
 

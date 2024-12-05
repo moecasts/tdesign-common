@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction';
 /* eslint-disable no-param-reassign */
 import log from '../log/log';
 import { UploadFile, XhrOptions } from './types';
@@ -13,6 +14,7 @@ export default function xhr({
   files = [],
   name = 'file',
   useMockProgress = true,
+  mockProgressDuration = 300,
   formatRequest,
   onError,
   onProgress,
@@ -50,21 +52,26 @@ export default function xhr({
         } else {
           clearInterval(timer1);
         }
-      }, 300);
+      }, mockProgressDuration);
       clearTimeout(timer2);
-    }, 300);
+    }, mockProgressDuration);
   }
 
   let requestData: { [key: string]: any } = {};
   if (data) {
-    const extraData = typeof data === 'function' ? data(file) : data;
+    const extraData = isFunction(data) ? data(innerFiles) : data;
     Object.assign(requestData, extraData);
   }
   innerFiles.forEach((file, index) => {
     const fileField = innerFiles.length > 1 ? `${name}[${index}]` : name;
     requestData[fileField] = file.raw;
-    requestData[name] = file.raw;
   });
+  if (innerFiles.length === 1) {
+    requestData[name] = innerFiles[0].raw;
+  } else {
+    requestData[name] = innerFiles.map((file) => file.raw);
+  }
+  requestData.length = innerFiles.length;
 
   if (formatRequest) {
     requestData = formatRequest(requestData);
@@ -83,9 +90,13 @@ export default function xhr({
   });
 
   xhr.onerror = (event: ProgressEvent) => {
-    onError({ event, file, files: innerFiles });
+    onError({ event, file, files: innerFiles, XMLHttpRequest: xhr, });
     clearInterval(timer1);
     clearTimeout(timer2);
+  };
+
+  xhr.ontimeout = (event) => {
+    onError({ event, file, files: innerFiles, XMLHttpRequest: xhr, });
   };
 
   if (xhr.upload) {
@@ -116,7 +127,11 @@ export default function xhr({
     const isFail = xhr.status < 200 || xhr.status >= 300;
     if (isFail) {
       return onError({
-        event, file, files: innerFiles, response
+        event,
+        file,
+        files: innerFiles,
+        response,
+        XMLHttpRequest: xhr,
       });
     }
     const text = xhr.responseText || xhr.response;
@@ -141,11 +156,16 @@ export default function xhr({
       event,
       file: file || innerFiles[0],
       files: [...innerFiles],
+      XMLHttpRequest: xhr,
       response,
     });
   };
 
   xhr.send(formData);
+  // @ts-ignore
+  xhr.upload.requestParams = requestData;
+  // @ts-ignore
+  xhr.upload.requestHeaders = headers;
 
   return xhr;
 }

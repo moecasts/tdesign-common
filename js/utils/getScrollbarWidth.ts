@@ -16,9 +16,9 @@
  */
 import { getIEVersion } from './helper';
 
-export default function getScrollbarWidth() {
+export function getScrollbarWidthWithCSS() {
   const defaultScrollbarWidth = 6;
-  if (!navigator) return defaultScrollbarWidth;
+  if (typeof navigator === 'undefined' || !navigator) return defaultScrollbarWidth;
   if (/(Chrome|Safari)/i.test(navigator.userAgent)) return defaultScrollbarWidth;
   const scrollDiv = document.createElement('div');
   scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;';
@@ -33,4 +33,16 @@ export default function getScrollbarWidth() {
     scrollbarWidth = 12;
   }
   return scrollbarWidth;
+}
+
+/**
+ * @description: Calculate scroll bar width
+ * @param container  Container used to calculate scrollbar width
+ * @default container: document.body
+ */
+export function getScrollbarWidth(container: HTMLElement = document.body) {
+  if (container === document.body) {
+    return window.innerWidth - document.documentElement.clientWidth;
+  }
+  return container.offsetWidth - container.clientWidth;
 }

@@ -1,5 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 // 文件有效，为国际化做准备
+import 'dayjs/locale/ja';
+
 export default {
   pagination: {
     itemsPerPage: '{size} /ページ',
@@ -30,6 +32,7 @@ export default {
     placeholder: '検索するキーワードを入力してください',
   },
   timePicker: {
+    dayjsLocale: 'ja',
     now: 'このとき',
     confirm: '決定事項',
     anteMeridiem: 'モーニング',
@@ -84,13 +87,29 @@ export default {
     placeholder: '選択してください',
   },
   datePicker: {
+    dayjsLocale: 'ja',
     placeholder: {
       date: '日付を選択してください',
       month: '月を選択してください',
       year: '年度を選択してください',
+      quarter: '四半期を選択してください',
+      week: '週を選択してください',
     },
-    weekdays: ['一', '二', '三', '四', '五', '六', '日'],
-    months: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月'],
+    weekdays: ['月', '火', '水', '木', '金', '土', '日'],
+    months: [
+      '1 月',
+      '2 月',
+      '3 月',
+      '4 月',
+      '5 月',
+      '6 月',
+      '7 月',
+      '8 月',
+      '9 月',
+      '10 月',
+      '11 月',
+      '12 月',
+    ],
     quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
     rangeSeparator: ' - ',
     direction: 'ltr',
@@ -125,7 +144,8 @@ export default {
     dragger: {
       dragDropText: 'マウスを離す',
       draggingText: 'この領域にドラッグ＆ドロップする',
-      clickAndDragText: '上の「ファイルを選択」をクリックするか、このエリアにファイルをドラッグ＆ドロップしてください',
+      clickAndDragText:
+        '上の「ファイルを選択」をクリックするか、このエリアにファイルをドラッグ＆ドロップしてください',
     },
     file: {
       fileNameText: 'ファイル名',
@@ -146,6 +166,7 @@ export default {
       date: '正しく入力してください${name}',
       url: '正しく入力してください${name}',
       required: '${name}必須項目',
+      whitespace: '${name}を空にすることはできません',
       max: '${name}文字数制限 ${validate} 文字，一中二文',
       min: '${name}を下回る文字数は使用できません ${validate} 文字，一中二文',
       len: '${name}文字の長さは、必ず ${validate}',
@@ -157,6 +178,7 @@ export default {
       boolean: '${name}データ型は Boolean 型であること',
       number: '${name}デジタルであること',
     },
+    colonText: ':',
   },
   input: {
     placeholder: '入力してください',
@@ -177,23 +199,55 @@ export default {
     swatchColorTitle: 'システムプリセットカラー',
     recentColorTitle: '最近使用した色',
     clearConfirmText: '最近使用した色をクリアにするのは確実ですか？',
+    singleColor: '単色',
+    gradientColor: 'グラデ'
   },
   guide: {
     finishButtonProps: {
       content: '終了',
-      theme: 'primary'
+      theme: 'primary',
     },
     nextButtonProps: {
       content: '次のステップ',
-      theme: 'primary'
+      theme: 'primary',
     },
     skipButtonProps: {
       content: 'スキップ',
-      theme: 'default'
+      theme: 'default',
     },
     prevButtonProps: {
       content: '前へ',
-      theme: 'default'
+      theme: 'default',
     },
+  },
+  image: {
+    errorText: '画像を表示できません',
+    loadingText: '画像の読み込み',
+  },
+  imageViewer: {
+    errorText: '画像の読み込みに失敗しました。再読み込みしてみてください',
+    mirrorTipText: '鏡像',
+    rotateTipText: '回転する',
+    originalSizeTipText: 'オリジナルサイズ',
+  },
+  typography: {
+    expandText: 'もっと拡大する',
+    collapseText: '畳む',
+    copiedText: 'コピー成功',
+  },
+  rate: {
+    rateText: ['ひどい', 'がっかり', '普通', '満足', '驚き'],
+  },
+  empty: {
+    titleText: {
+      maintenance: '建設中',
+      success: '成功',
+      fail: '失敗',
+      empty: 'データなし',
+      networkError: 'ネットワークエラー',
+    },
+  },
+  descriptions: {
+    colonText: ':',
   },
 } as const;

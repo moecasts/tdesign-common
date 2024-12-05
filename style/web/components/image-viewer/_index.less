@@ -79,7 +79,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2000;
+  z-index: @z-index-image-viewer;
   overflow: hidden;
   animation: @anim-duration-base @anim-time-fn-ease-in modal-mask-show;
 
@@ -135,8 +135,8 @@
 
       .@{prefix}-image-viewer__modal-image {
         display: block;
-        max-width: min(90vw, 1000px);
-        max-height: min(90vh, 800px);
+        max-width: ~"min(90vw, 1000px)";
+        max-height: ~"min(90vh, 800px)";
         transition: all @anim-duration-base @anim-time-fn-easing;
         transform: rotate(0deg);
         object-fit: contain;
@@ -261,39 +261,40 @@
         right: 0;
         background-image: linear-gradient(to right, rgba(255, 255, 255, 0%), @bg-color-container);
       }
+    }
+  }
 
-      .@{prefix}-image-viewer__header-trans {
-        height: 100%;
-        transition: transform @anim-duration-base;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: @spacer-s;
-        margin-left: @image-viewer-header-box-width-margin-left;
+  .@{prefix}-image-viewer__header-trans {
+    height: 100%;
+    transition: transform @anim-duration-base;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: @spacer-s;
+    margin-left: @image-viewer-header-box-width-margin-left;
+  }
 
-        .@{prefix}-image-viewer__header-box {
-          box-sizing: border-box;
-          width: @image-viewer-header-box-width;
-          height: @image-viewer-header-box-height;
-          transition: @anim-duration-base;
-          overflow: hidden;
-          border-radius: @border-radius-default;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid transparent;
-          background-color: @bg-color-secondarycontainer;
+  .@{prefix}-image-viewer__header-box {
+    box-sizing: border-box;
+    width: @image-viewer-header-box-width;
+    height: @image-viewer-header-box-height;
+    position: relative;
+    transition: @anim-duration-base;
+    overflow: hidden;
+    border-radius: @border-radius-default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    background-color: @bg-color-secondarycontainer;
 
-          .@{prefix}-image-viewer__header-img {
-            width: auto;
-            height: 100%;
-          }
+    .@{prefix}-image-viewer__header-img {
+      width: auto;
+      height: 100%;
+    }
 
-          &:hover, &.@{prefix}-is-active {
-            border-color: @brand-color;
-          }
-        }
-      }
+    &:hover, &.@{prefix}-is-active {
+      border-color: @brand-color;
     }
   }
 
@@ -419,8 +420,8 @@
 }
 
 .@{prefix}-image-viewer-mini__content {
-  max-width: min(90vw, 1000px);
-  max-height: min(90vh, 800px);
+  max-width: ~"min(90vw, 1000px)";
+  max-height: ~"min(90vh, 800px)";
 
   .@{prefix}-image-viewer__modal-pic {
 
@@ -443,8 +444,8 @@
 
       .@{prefix}-image-viewer__modal-image {
         display: block;
-        max-width: min(80vw, 800px);
-        max-height: min(80vh, 600px);
+        max-width: ~"min(80vw, 800px)";
+        max-height: ~"min(80vh, 600px)";
         transition: all @anim-duration-base ease;
         transform: rotate(0deg);
         object-fit: contain;
@@ -454,8 +455,21 @@
 }
 
 .@{prefix}-image-viewer__dialog {
+  &.@{prefix}-dialog__ctx--fixed {
+    z-index: @z-index-image-viewer;
+  }
+
   .@{prefix}-dialog__header {
     padding: 0 @comp-paddingLR-s;
+    // 兼容dialog表头限制无法拖拽
+    pointer-events: none;
+    .@{prefix}-image-viewer__dialog-title {
+      pointer-events: all;
+    }
+
+    .@{prefix}-dialog__close {
+      pointer-events: auto;
+    }
   }
 
   .@{prefix}-dialog {

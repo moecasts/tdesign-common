@@ -51,6 +51,9 @@ export interface UploadFile {
 export interface RequestMethodResponse {
   status: 'success' | 'fail';
   error?: string;
+  /**
+   * response.XMLHttpRequest is going to be deprecated
+   */
   response: { url?: string; [key: string]: any }
 }
 
@@ -74,10 +77,19 @@ export interface InnerProgressContext {
   XMLHttpRequest?: XMLHttpRequest;
 }
 
+export interface ErrorContext {
+  event?: ProgressEvent;
+  file?: UploadFile;
+  files?: UploadFile[];
+  response?: any;
+  XMLHttpRequest?: XMLHttpRequest;
+}
+
 export interface SuccessContext {
   event?: ProgressEvent;
   file?: UploadFile;
   files?: UploadFile[];
+  XMLHttpRequest?: XMLHttpRequest;
   response?: RequestMethodResponse['response'];
 }
 
@@ -103,14 +115,12 @@ export interface XhrOptions {
   file?: UploadFile;
   files?: UploadFile[];
   useMockProgress?: boolean;
+  // 模拟进度间隔时间，默认：300
+  mockProgressDuration?: number;
   name: string;
   /** 可与 data 共存 */
   formatRequest?: (requestData: { [key: string]: any }) => { [key: string]: any };
-  onError: ({
-    event, file, files, response
-  }: {
-    event?: ProgressEvent; file?: UploadFile; files?: UploadFile[]; response?: any
-  }) => void;
+  onError: (context: ErrorContext) => void;
   onSuccess: (context: SuccessContext) => void;
   onProgress: (context: InnerProgressContext) => void;
 }
@@ -172,7 +182,7 @@ export interface OnResponseErrorContext {
   files: UploadFile[];
 }
 
-export type ResponseType = { error?: string; url?: string } & Record<string, any>;
+export type ResponseType = { error?: string; url?: string; status?: 'fail' | 'success'; files?: UploadFile[] } & Record<string, any>
 
 export interface HandleUploadParams {
   /** 已经上传过的文件 */
@@ -192,11 +202,13 @@ export interface HandleUploadParams {
   name?: string;
   /** 是否需要真实进度之前的模拟进度 */
   useMockProgress?: boolean;
+  // 模拟进度间隔时间
+  mockProgressDuration?: number;
   multiple?: boolean;
   headers?: {[key: string]: string};
   withCredentials?: boolean;
-  /** HTTP 请求类型。可选项：POST/GET/PUT/OPTION/PATCH/post/get/put/option/patch */
-  method?: 'POST' | 'GET' | 'PUT' | 'OPTION' | 'PATCH' | 'post' | 'get' | 'put' | 'option' | 'patch';
+  /** HTTP 请求类型。可选项：POST/GET/PUT/OPTIONS/PATCH/post/get/put/options/patch */
+  method?: 'POST' | 'GET' | 'PUT' | 'OPTIONS' | 'PATCH' | 'post' | 'get' | 'put' | 'options' | 'patch';
   formatRequest?: (requestData: { [key: string]: any }) => { [key: string]: any };
   formatResponse?: (response: any, context: FormatResponseContext) => ResponseType;
   /** 自定义上传方法 */

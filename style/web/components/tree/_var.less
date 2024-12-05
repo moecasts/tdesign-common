@@ -20,7 +20,7 @@
 @tree-node-bg-active-color: @brand-color-light;
 @tree-node-icon-color: @text-color-secondary;
 @tree-node-icon-line-color: @border-level-1-color;
-@tree-disabled-color: @border-level-2-color;
+@tree-disabled-color: @text-color-disabled;
 @tree-icon-disabled-color: @tree-node-icon-color;
 
 //字体
@@ -39,7 +39,7 @@
 
 //尺寸
 @tree-line-width: 1px;
-@tree-node-item-height: 34px;
+@tree-node-item-height: calc(@comp-size-m + 2px);
 @tree-line-before-width: @comp-margin-m;
 @tree-line-leaf-width: @comp-margin-m;
 @tree-line-first-height: @tree-font-line-height;
